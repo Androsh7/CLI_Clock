@@ -63,6 +63,7 @@ void printHelpMenu(int time_change_state) {
     std::cout << "2) Adjust Minutes\n" << RST_color;
     if (time_change_state == 3) { std::cout << Cyan_Highlight; }
     std::cout << "3) Adjust Hours\n" << RST_color;
+    std::cout << "4) Clear Offset\n";
     std::cout << "q) Exit";
 }
 
@@ -138,11 +139,12 @@ int main () {
             int hour = fabs(temp_second_offset / 3600);
             int minute  = fabs((temp_second_offset % 3600) / 60);
             int second = fabs(temp_second_offset % 60);
-            strftime(output, 50, "%I:%M:%S %p", &datetime);
-            setCursorPos(10,5);
+            strftime(output, 50, "%I:%M:%S %p", &datetime); // prints the original time
+            setCursorPos(15,5);
             printf("%s", output);
             if (sign) { printf(" + %d:%d:%d", hour, minute, second); }
             else { printf(" - %d:%d:%d", hour, minute, second); }
+            printf(" --- Press ENTER to save (+/- to adjust)");
         }
         
         // creates a loop that lasts 1 second or until a key is pressed
@@ -193,6 +195,14 @@ int main () {
                 temp_second_offset = second_offset; 
                 quit_loop = true; 
             }
+            // check if key 4 is pressed
+            else if (GetAsyncKeyState(0x34) & 0x0001) {
+                time_change_state = 4;
+                temp_second_offset = 0;
+                second_offset = 0;
+                printHelpMenu(time_change_state);
+                quit_loop = true;
+            }
 
             if (time_change_state) {
                 // if ESC key is pressed exit key change mode
@@ -200,7 +210,7 @@ int main () {
                     time_change_state = 0;
                     temp_second_offset = 0;
                     setCursorPos(0,5);
-                    clearArea(50,1); 
+                    clearArea(85,1); 
                     printHelpMenu(time_change_state);
                 }
                 // save the new offset
@@ -209,15 +219,15 @@ int main () {
                     temp_second_offset = 0;
                     time_change_state = 0;
                     setCursorPos(0,5);
-                    clearArea(50,1);
+                    clearArea(85,1);
                     printHelpMenu(time_change_state);
                 }
 
                 // add to offset
-                if (GetAsyncKeyState(VK_OEM_PLUS) & 0x0001) {
+                if (GetAsyncKeyState(VK_OEM_PLUS) & 0x0001 && time_change_state != 4) {
                     temp_second_offset += pow(60, time_change_state -1);
                 }
-                else if (GetAsyncKeyState(VK_OEM_MINUS) & 0x0001) {
+                else if (GetAsyncKeyState(VK_OEM_MINUS) & 0x0001 && time_change_state != 4) {
                     temp_second_offset -= pow(60, time_change_state -1);
                 }
 
@@ -227,6 +237,4 @@ int main () {
             }
         }
     }
-
 }
-
