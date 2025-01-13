@@ -138,7 +138,7 @@ int main () {
             int hour = fabs(temp_second_offset / 3600);
             int minute  = fabs((temp_second_offset % 3600) / 60);
             int second = fabs(temp_second_offset % 60);
-            strftime(output, 50, "%I:%M:%S %p", &offset_datetime);
+            strftime(output, 50, "%I:%M:%S %p", &datetime);
             setCursorPos(10,5);
             printf("%s", output);
             if (sign) { printf(" + %d:%d:%d", hour, minute, second); }
