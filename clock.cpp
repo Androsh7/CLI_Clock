@@ -100,17 +100,6 @@ int main () {
     bool question_state = false; // tracks the state of the '?' key
     bool q_state = false; // tracks the state of the 'Q' key
 
-    bool one_state = false; // tracks the state of the 1 key
-    bool two_state = false; // tracks the state of the 2 key
-    bool three_state = false; // tracks the state of the 3 key
-    bool four_state = false; // tracks the state of the 4 key
-
-    bool plus_state = false; // tracks the state of the '+' key
-    bool minues_state = false; // tracks the state of the '-' key
-
-    bool esc_state = false; // tracks the state of the ESC key
-    bool enter_state = false; // tracks the state of the ENTER key
-
     // Hide cursor
     setCursorVisibility(0);
 
@@ -184,10 +173,26 @@ int main () {
                 question_state = false;
             }
             
-            // checks for number keys
-            if      (GetAsyncKeyState(0x31) & 0x0001) { time_change_state = 1; printHelpMenu(time_change_state); temp_second_offset = second_offset; quit_loop = true; } // if pressed 1 key
-            else if (GetAsyncKeyState(0x32) & 0x0001) { time_change_state = 2; printHelpMenu(time_change_state); temp_second_offset = second_offset; quit_loop = true; } // if pressed 2 key
-            else if (GetAsyncKeyState(0x33) & 0x0001) { time_change_state = 3; printHelpMenu(time_change_state); temp_second_offset = second_offset; quit_loop = true; } // if pressed 3 key
+            // check if key 1 is pressed
+            if (GetAsyncKeyState(0x31) & 0x0001) { 
+                time_change_state = 1; printHelpMenu(time_change_state); 
+                temp_second_offset = second_offset; 
+                quit_loop = true; 
+            }
+            // check if key 2 is pressed
+            else if (GetAsyncKeyState(0x32) & 0x0001) { 
+                time_change_state = 2; 
+                printHelpMenu(time_change_state); 
+                temp_second_offset = second_offset; 
+                quit_loop = true; 
+            } 
+            // check if key 3 is pressed
+            else if (GetAsyncKeyState(0x33) & 0x0001) { 
+                time_change_state = 3; 
+                printHelpMenu(time_change_state); 
+                temp_second_offset = second_offset; 
+                quit_loop = true; 
+            }
 
             if (time_change_state) {
                 // if ESC key is pressed exit key change mode
